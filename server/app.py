@@ -29,7 +29,9 @@ def create_message():
 @app.route('/messages/<int:id>', methods=['PATCH'])
 def update_message(id):
     data = request.get_json()
-    message = Message.query.get_or_404(id)
+    message = db.session.get(Message, id)
+    if message is None:
+        return jsonify({'error': 'Message not found'}), 404
     if 'body' in data:
         message.body = data['body']
     db.session.commit()
@@ -37,7 +39,9 @@ def update_message(id):
 
 @app.route('/messages/<int:id>', methods=['DELETE'])
 def delete_message(id):
-    message = Message.query.get_or_404(id)
+    message = db.session.get(Message, id)
+    if message is None:
+        return jsonify({'error': 'Message not found'}), 404
     db.session.delete(message)
     db.session.commit()
     return '', 204
