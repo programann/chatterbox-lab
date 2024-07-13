@@ -1,6 +1,8 @@
-from flask import Flask, request, jsonify
 from flask_cors import CORS
 from flask_migrate import Migrate
+#add import
+from flask import Flask, request, jsonify
+
 from models import db, Message
 
 app = Flask(__name__)
